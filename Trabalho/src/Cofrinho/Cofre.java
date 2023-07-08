@@ -1,6 +1,7 @@
 package Cofrinho;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 enum tipoDeMoeda{
 	real,
@@ -9,35 +10,67 @@ enum tipoDeMoeda{
 }
 
 public class Cofre {
-	public HashMap<String, Moeda> listaMoedas;
+	public ArrayList<Moeda> listaMoedas = new ArrayList<Moeda>();
 	
 	public void adicionar(String moeda, double valor) {	
 		if(moeda == "dolar") {
-			listaMoedas.put("Dolar", new Dolar(valor));
+			listaMoedas.add(new Dolar(valor));
 		}
 		else if(moeda == "euro") {
-			listaMoedas.put("Euro", new Euro(valor));
+			listaMoedas.add(new Euro(valor));
 		}
 		else if(moeda == "real") {
-			listaMoedas.put("real", new Real(valor));
-		}
-		else {
-			System.out.println("Tipo de moeda não encontrada");		
+			listaMoedas.add(new Real(valor));
 		}
 	}
 	
-	public void remover(String moeda, double valor) {
-		if(moeda == "dolar") {
+	void test() {
+		Iterator<Moeda> iteratorMoedas = listaMoedas.iterator();
+		
+		while(iteratorMoedas.hasNext()) {
+			Moeda moedaDaVez = iteratorMoedas.next();
+			System.out.print("é Dolar? ");
+			System.out.print(moedaDaVez instanceof Dolar);
+			System.out.println();
 			
-		}
-		else if(moeda == "euro") {
+			System.out.print("é Euro? ");
+			System.out.print(moedaDaVez instanceof Euro);
+			System.out.println();
 			
+			System.out.print("é Real? ");
+			System.out.print(moedaDaVez instanceof Real);
+			System.out.println();
 		}
-		else if(moeda == "real") {
+	}
+	
+	private void removerMoeda(Moeda moedaDaVez, double valor, int indexDoArray) {
+		if(moedaDaVez.valor == valor) {
+			listaMoedas.remove(indexDoArray);
+		}
+	}
+	
+	public void remover(String moedaParam, double valorParam) {
+		for(int i = 0; i < listaMoedas.size(); i++) {
+			Moeda moedaDaVez = listaMoedas.get(i);
 			
+			if(moedaDaVez instanceof Dolar && moedaParam == "dolar") {
+				removerMoeda(moedaDaVez, valorParam, i);
+			}
+			else if(moedaDaVez instanceof Real && moedaParam == "real") {
+				removerMoeda(moedaDaVez, valorParam, i);
+			}
+			else if(moedaDaVez instanceof Euro && moedaParam == "euro") {
+				removerMoeda(moedaDaVez, valorParam, i);
+			}
 		}
-		else {
-				
+	}
+	
+	public void listagemMoedas() {
+		Iterator<Moeda> it = listaMoedas.iterator();
+		
+		while(it.hasNext()) {
+			Moeda moeda = it.next();
+			moeda.info();
 		}
 	}
 }
