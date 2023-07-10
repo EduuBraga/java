@@ -3,14 +3,8 @@ package Cofrinho;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-enum tipoDeMoeda{
-	real,
-	dolar,
-	euro
-}
-
 public class Cofre {
-	public ArrayList<Moeda> listaMoedas = new ArrayList<Moeda>();
+	private ArrayList<Moeda> listaMoedas = new ArrayList<Moeda>();
 	
 	public void adicionar(String moeda, double valor) {	
 		if(moeda == "dolar") {
@@ -21,25 +15,6 @@ public class Cofre {
 		}
 		else if(moeda == "real") {
 			listaMoedas.add(new Real(valor));
-		}
-	}
-	
-	void test() {
-		Iterator<Moeda> iteratorMoedas = listaMoedas.iterator();
-		
-		while(iteratorMoedas.hasNext()) {
-			Moeda moedaDaVez = iteratorMoedas.next();
-			System.out.print("é Dolar? ");
-			System.out.print(moedaDaVez instanceof Dolar);
-			System.out.println();
-			
-			System.out.print("é Euro? ");
-			System.out.print(moedaDaVez instanceof Euro);
-			System.out.println();
-			
-			System.out.print("é Real? ");
-			System.out.print(moedaDaVez instanceof Real);
-			System.out.println();
 		}
 	}
 	
@@ -63,6 +38,26 @@ public class Cofre {
 				removerMoeda(moedaDaVez, valorParam, i);
 			}
 		}
+	}
+	
+	public void totalConvertido() {
+		double total = 0;
+		
+		for(int i = 0; i < listaMoedas.size(); i++) {
+			Moeda moedaDaVez = listaMoedas.get(i);
+			
+			if(moedaDaVez instanceof Dolar) {
+				total += moedaDaVez.converter();
+			}
+			else if(moedaDaVez instanceof Real) {
+				total += moedaDaVez.converter();
+			}
+			else if(moedaDaVez instanceof Euro) {
+				total += moedaDaVez.converter();
+			}
+		}	
+		
+		System.out.println("O total convertido é: " + total);
 	}
 	
 	public void listagemMoedas() {
